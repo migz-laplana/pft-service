@@ -1,11 +1,18 @@
 import { Body, Controller, Get, Post, Req, Res } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { Response } from 'express';
+import { CookieOptions, Response } from 'express';
 import { SignInDto } from './dto/signIn.dto';
 import { AllowAnon } from 'src/decorators/custom-decorators';
 
 @Controller('auth')
 export class AuthController {
+  private readonly env = process.env.ENV;
+  private readonly cookieOptions: CookieOptions = {
+    httpOnly: true,
+    ...(this.env !== 'DEV' && { sameSite: 'none' }),
+    secure: this.env !== 'DEV',
+    maxAge: 86400000,
+  };
   constructor(private authService: AuthService) {}
 
   @AllowAnon()
@@ -19,13 +26,11 @@ export class AuthController {
       signInDto.password,
     );
 
-    const isDevEnv = process.env.ENV === 'DEV';
-    response.cookie(`pft-session-${process.env.ENV.toLowerCase()}`, token, {
-      httpOnly: true,
-      ...(!isDevEnv && { sameSite: 'none' }),
-      secure: !isDevEnv,
-      maxAge: 86400000,
-    });
+    response.cookie(
+      `pft-session-${process.env.ENV.toLowerCase()}`,
+      token,
+      this.cookieOptions,
+    );
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password, ...rest } = user;
@@ -35,7 +40,10 @@ export class AuthController {
   @AllowAnon()
   @Post('logout')
   async signOut(@Res({ passthrough: true }) response: Response) {
-    response.clearCookie(`pft-session-${process.env.ENV.toLowerCase()}`);
+    response.clearCookie(
+      `pft-session-${process.env.ENV.toLowerCase()}`,
+      this.cookieOptions,
+    );
   }
 
   @Get('profile')
