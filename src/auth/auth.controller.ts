@@ -20,7 +20,7 @@ export class AuthController {
     );
 
     const isDevEnv = process.env.ENV === 'DEV';
-    response.cookie('pft-session', token, {
+    response.cookie(`pft-session-${process.env.ENV.toLowerCase()}`, token, {
       httpOnly: true,
       ...(!isDevEnv && { sameSite: 'none' }),
       secure: !isDevEnv,
@@ -35,7 +35,7 @@ export class AuthController {
   @AllowAnon()
   @Post('logout')
   async signOut(@Res({ passthrough: true }) response: Response) {
-    response.clearCookie('pft-session');
+    response.clearCookie(`pft-session-${process.env.ENV.toLowerCase()}`);
   }
 
   @Get('profile')

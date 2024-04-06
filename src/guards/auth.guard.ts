@@ -27,7 +27,8 @@ export class AuthGuard implements CanActivate {
 
     const request = context.switchToHttp().getRequest();
 
-    const token = request.cookies['pft-session'];
+    const token =
+      request.cookies[`pft-session-${process.env.ENV.toLowerCase()}`];
     if (!token) {
       throw new UnauthorizedException();
     }
