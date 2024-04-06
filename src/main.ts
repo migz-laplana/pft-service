@@ -7,7 +7,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, { abortOnError: false });
   app.enableCors({
     credentials: true,
-    origin: 'http://localhost:3000',
+    origin: ['http://localhost:3000', 'https://pft-web-qa.vercel.app/'],
   });
   app.useGlobalPipes(new ValidationPipe());
   app.use(cookieParser());
