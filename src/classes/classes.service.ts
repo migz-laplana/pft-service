@@ -12,9 +12,7 @@ export class ClassesService {
     @InjectModel(User.name) private userModel: Model<User>,
   ) {}
   async create(createClassDto: CreateClassDto, teacherDocId: string) {
-    const teacher = await this.userModel
-      .findById(teacherDocId, { password: 0 })
-      .exec();
+    const teacher = await this.userModel.findById(teacherDocId).exec();
 
     const newClass = new this.classModel({
       ...createClassDto,

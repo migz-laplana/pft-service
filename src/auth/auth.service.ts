@@ -23,15 +23,17 @@ export class AuthService {
       throw new UnauthorizedException('Incorrect password');
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { password: currentPassword, ...rest } = user;
-
-    const jwtPayload = { profile: rest, sub: user.email };
+    const jwtPayload = { sub: user._id, role: user.role };
     const token = await this.jwtService.signAsync(jwtPayload);
 
     return {
-      user,
+      user: user.toObject(),
       token,
     };
+  }
+
+  async getUserById(id: string) {
+    const user = await this.usersService.findUserById(id);
+    return user;
   }
 }
