@@ -12,22 +12,14 @@ export class ClassesController {
   @Roles(UserRole.TEACHER)
   @Post()
   create(@Body() createClassDto: CreateClassDto, @Req() request) {
-    const {
-      jwtPayload: {
-        profile: { _id },
-      },
-    } = request;
-    return this.classesService.create(createClassDto, _id);
+    const { sub } = request.jwtPayload;
+    return this.classesService.create(createClassDto, sub);
   }
 
   @Roles(UserRole.TEACHER)
   @Get()
   findAllByTeacher(@Req() request) {
-    const {
-      jwtPayload: {
-        profile: { _id },
-      },
-    } = request;
-    return this.classesService.findAllByTeacher(_id);
+    const { sub } = request.jwtPayload;
+    return this.classesService.findAllByTeacher(sub);
   }
 }

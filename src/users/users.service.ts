@@ -20,17 +20,18 @@ export class UsersService {
     return await createdUser.toObject();
   }
 
-  async findAll(): Promise<User[]> {
-    return await this.userModel.find({}, { password: 0 }).lean().exec();
+  async findUserById(id: string): Promise<User> {
+    return await this.userModel.findById(id).lean().exec();
   }
 
-  async findOneByEmail(
-    email: string,
-    includePassword?: boolean,
-  ): Promise<User> {
+  async findAll(): Promise<User[]> {
+    return await this.userModel.find().lean().exec();
+  }
+
+  async findOneByEmail(email: string, includePassword?: boolean) {
     const user = await this.userModel
-      .findOne({ email }, !includePassword && { password: 0 })
-      .lean()
+      .findOne({ email })
+      .select(includePassword && '+password')
       .exec();
 
     if (!user) {

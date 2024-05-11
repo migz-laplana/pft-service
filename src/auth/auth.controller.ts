@@ -48,6 +48,8 @@ export class AuthController {
 
   @Get('profile')
   async getProfile(@Req() request) {
-    return request.jwtPayload.profile;
+    const { sub } = request.jwtPayload;
+
+    return await this.authService.getUserById(sub);
   }
 }

@@ -9,6 +9,9 @@ export class User {
   @Prop({ required: true })
   firstName: string;
 
+  @Prop({ default: Date.now, type: Date })
+  createdAt: Date;
+
   @Prop({ required: true })
   lastName: string;
 
@@ -18,7 +21,7 @@ export class User {
   @Prop({ unique: true, index: true })
   email: string;
 
-  @Prop({ required: true })
+  @Prop({ required: true, select: false })
   password: string;
 }
 

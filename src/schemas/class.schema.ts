@@ -7,6 +7,9 @@ export type ClassDocument = HydratedDocument<Class>;
 
 @Schema()
 export class Class {
+  @Prop({ default: Date.now })
+  createdAt: Date;
+
   @Prop({ required: true })
   name: string;
 
