@@ -13,8 +13,18 @@ export class Class {
   @Prop({ required: true })
   name: string;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
+  @Prop({ unique: true })
+  classCode: string;
+
+  @Prop({
+    required: true,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: User.name,
+  })
   teacher: User;
+
+  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: User.name }] })
+  students: User[];
 }
 
 export const ClassSchema = SchemaFactory.createForClass(Class);
