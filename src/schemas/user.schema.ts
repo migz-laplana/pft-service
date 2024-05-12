@@ -18,7 +18,7 @@ export class User {
   @Prop({ required: true })
   role: UserRole;
 
-  @Prop({ unique: true, index: true })
+  @Prop({ required: true, unique: true, index: true })
   email: string;
 
   @Prop({ required: true, select: false })
