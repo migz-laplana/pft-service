@@ -1,11 +1,16 @@
 import { Module } from '@nestjs/common';
 import { AuthController } from './auth.controller';
-import { AuthService } from './auth.service';
-import { UsersModule } from 'src/users/users.module';
+import { PassportModule } from '@nestjs/passport';
+import { JwtStrategy } from './auth.strategy';
+import { PassportStrategyName } from 'src/types/auth.types';
+import { KindeClientModule } from 'src/client/kinde/kindeClient.module';
 
 @Module({
-  imports: [UsersModule],
+  imports: [
+    PassportModule.register({ defaultStrategy: PassportStrategyName.JWT }),
+    KindeClientModule,
+  ],
   controllers: [AuthController],
-  providers: [AuthService],
+  providers: [JwtStrategy],
 })
 export class AuthModule {}

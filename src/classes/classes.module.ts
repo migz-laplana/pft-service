@@ -1,15 +1,11 @@
 import { Module } from '@nestjs/common';
 import { ClassesService } from './classes.service';
 import { ClassesController } from './classes.controller';
-import { MongooseModule } from '@nestjs/mongoose';
-import { Class, ClassSchema } from 'src/schemas/class.schema';
-import { User, UserSchema } from 'src/schemas/user.schema';
+import { KindeClientModule } from 'src/client/kinde/kindeClient.module';
+import { SupabaseClientModule } from 'src/client/supabase/supabaseClient.module';
 
 @Module({
-  imports: [
-    MongooseModule.forFeature([{ name: Class.name, schema: ClassSchema }]),
-    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
-  ],
+  imports: [KindeClientModule, SupabaseClientModule],
   controllers: [ClassesController],
   providers: [ClassesService],
 })
