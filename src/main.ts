@@ -9,7 +9,9 @@ async function bootstrap() {
     credentials: true,
     origin: ['http://localhost:3000', 'https://pft-web-qa.vercel.app'],
   });
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(
+    new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }),
+  );
   app.use(cookieParser());
   await app.listen(process.env.PORT || 8080);
 }

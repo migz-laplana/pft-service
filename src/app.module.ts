@@ -6,9 +6,10 @@ import { RolesGuard } from './guards/roles.guard';
 import { ConfigModule } from '@nestjs/config';
 import { ClassesModule } from './classes/classes.module';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { FitnessTestResultModule } from './fitness-test-result/fitness-test-result.module';
 
 @Module({
-  imports: [ConfigModule.forRoot(), AuthModule, ClassesModule],
+  imports: [ConfigModule.forRoot(), AuthModule, ClassesModule, FitnessTestResultModule],
   providers: [
     AppService,
 
